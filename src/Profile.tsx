@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './supabaseClient'
 import CharakterGestaltung from './CharakterGestaltung'
+import Character from './Character';
 import './App.css'
 
 interface Props {
@@ -10,41 +11,41 @@ interface Props {
 // ------------------------------
 // Character placeholder tile
 // ------------------------------
-function CharacterPlaceholder() {
-  return <div className="character-placeholder">character placeholder</div>
+function CharacterPlaceholder({ gender, topIndex, bottomIndex, hairIndex }: any) {
+  return (
+    <div className="character-placeholder" style={{ overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {/* We scale the character logicially so the internal offsets (-93px) stay perfectly aligned */}
+      <div style={{ transform: 'scale(0.72)', transformOrigin: 'center center', flex: 'none' }}>
+        <Character 
+          gender={gender}
+          topIndex={topIndex}
+          bottomIndex={bottomIndex}
+          hairIndex={hairIndex}
+        />
+      </div>
+    </div>
+  );
 }
 
 // ------------------------------
 // Profile details with editable fields
 // ------------------------------
-function ProfileDetails({ user }: Props) {
+function ProfileDetails({ user, initialData }: { user: any; initialData: any }) {
   const [shortDesc, setShortDesc] = useState('')
   const [aboutMe, setAboutMe] = useState('')
-  const [username, setUsername] = useState('Loading...')
+  const [username, setUsername] = useState(initialData?.username || 'Loading...')
   const [editingField, setEditingField] = useState<'short-desc' | 'about-me' | null>(null)
 
   const shortDescPlaceholder = 'describe your personality in 3 words'
   const aboutMePlaceholder = 'short bio about you'
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      if (!user) return
-
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('username, short_description, about_me')
-        .eq('id', user.id)
-        .maybeSingle()
-
-      if (!error && data) {
-        setUsername(data.username || 'No username set')
-        setShortDesc(data.short_description || '')
-        setAboutMe(data.about_me || '')
-      }
+    if (initialData) {
+      setShortDesc(initialData.short_description || '')
+      setAboutMe(initialData.about_me || '')
+      setUsername(initialData.username || 'No username set')
     }
-
-    fetchProfile()
-  }, [user])
+  }, [initialData])
 
   const saveField = async (dbField: 'short_description' | 'about_me', value: string) => {
     if (!user) return
@@ -158,14 +159,42 @@ function SideInfo() {
 // Main profile viewport
 // ------------------------------
 function ProfileViewport({ user }: Props) {
+  const [profileData, setProfileData] = useState<any>(null)
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!user) return
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('username, short_description, about_me, gender, hair_index, top_index, bottom_index')
+        .eq('id', user.id)
+        .maybeSingle()
+
+      if (!error && data) {
+        setProfileData(data)
+      }
+    }
+
+    fetchProfile()
+  }, [user])
+
   return (
     <div className="viewport">
       <div className="top-area">
         <section className="main-card">
           <h1>Profil</h1>
           <div className="profile-layout">
-            <CharacterPlaceholder />
-            <ProfileDetails user={user} />
+            <CharacterPlaceholder 
+              gender={profileData?.gender || 'female'} 
+              topIndex={profileData?.top_index || 0} 
+              bottomIndex={profileData?.bottom_index || 0} 
+              hairIndex={profileData?.hair_index || 0}
+            />
+            <ProfileDetails 
+              user={user} 
+              initialData={profileData}
+            />
           </div>
         </section>
         <SideInfo />
