@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { supabase } from './supabaseClient'
 
-function SignUp() {
+function SignUp({ onToggle }: { onToggle: () => void }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
@@ -13,14 +13,14 @@ function SignUp() {
       .from('profiles')
       .select('username')
       .eq('username', username)
-      .single()
+      .maybeSingle()
 
     if (existing) {
       setError('username is already taken!')
       return // stop here, don't create the account
     }
 
-    // create the auth account
+    // 1. Create the Auth account
     const { data, error: signUpError } = await supabase.auth.signUp({ email, password })
 
     if (signUpError) {
@@ -28,21 +28,29 @@ function SignUp() {
       return
     }
 
-    // save the username to their profile row
-    await supabase
-      .from('profiles')
-      .update({ username })
-      .eq('id', data.user.id)
+    // 2. Update the profile row with the username
+    if (data.user) {
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .upsert({ 
+          id: data.user.id, 
+          username: username 
+        })
 
-    if (error) setError(error)
+      if (profileError) {
+        console.error('Profile creation error:', profileError.message)
+        // Note: If this fails, the Auth account is still created.
+      }
+    }
   }
 
   return (
-    <div className="auth-form">
-      <h1>sign up</h1>
+    <div className="auth-form-container">
+      <div className="auth-form">
+        <h1>anmelden</h1>
       <input
         type="text"
-        placeholder="username"
+        placeholder="benutzername"
         onChange={e => setUsername(e.target.value)}
       />
       <input
@@ -52,11 +60,13 @@ function SignUp() {
       />
       <input
         type="password"
-        placeholder="password"
+        placeholder="passwort"
         onChange={e => setPassword(e.target.value)}
       />
-      <button onClick={handleSignUp}>sign up</button>
+      <button onClick={handleSignUp}>anmelden</button>
       {error && <p>{error}</p>}
+      </div>
+      <p className="auth-toggle">Du hast schon ein Konto? <button className="auth-toggle-btn" onClick={onToggle}>Hier einloggen</button></p>
     </div>
   )
 }

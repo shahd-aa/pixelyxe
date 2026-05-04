@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { supabase } from './supabaseClient'
 
-function Login() {
+function Login({ onToggle }: { onToggle: () => void }) {
   // stores what the user types in each field
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -18,8 +18,9 @@ function Login() {
   }
 
   return (
-    <div className="auth-form">
-      <h1>log in</h1>
+    <div className="auth-form-container">
+      <div className="auth-form">
+        <h1>einloggen</h1>
 
       <input
         type="email"
@@ -29,13 +30,15 @@ function Login() {
 
       <input
         type="password"
-        placeholder="password"
+        placeholder="passwort"
         onChange={e => setPassword(e.target.value)} // update password as they type
       />
 
-      <button onClick={handleLogin}>log in</button>
+      <button onClick={handleLogin}>einloggen</button>
 
       {error && <p>{error}</p>} {/* only shows if there's an error */}
+      </div>
+      <p className="auth-toggle">Noch kein Konto? <button className="auth-toggle-btn" onClick={onToggle}>Hier anmelden</button></p>
     </div>
   )
 }

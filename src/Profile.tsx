@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { supabase } from './supabaseClient'
+import CharakterGestaltung from './CharakterGestaltung'
 import './App.css'
 
 interface Props {
@@ -16,50 +18,77 @@ function CharacterPlaceholder() {
 // Profile details with editable fields
 // ------------------------------
 function ProfileDetails({ user }: Props) {
-  const [nickname, setNickname] = useState('')
   const [shortDesc, setShortDesc] = useState('')
   const [aboutMe, setAboutMe] = useState('')
-  const [editingField, setEditingField] = useState<'nickname' | 'short-desc' | 'about-me' | null>(null)
+  const [username, setUsername] = useState('Loading...')
+  const [editingField, setEditingField] = useState<'short-desc' | 'about-me' | null>(null)
 
-  const nicknamePlaceholder = 'give yourself a nickname!'
   const shortDescPlaceholder = 'describe your personality in 3 words'
   const aboutMePlaceholder = 'short bio about you'
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!user) return
+
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('username, short_description, about_me')
+        .eq('id', user.id)
+        .maybeSingle()
+
+      if (!error && data) {
+        setUsername(data.username || 'No username set')
+        setShortDesc(data.short_description || '')
+        setAboutMe(data.about_me || '')
+      }
+    }
+
+    fetchProfile()
+  }, [user])
+
+  const saveField = async (dbField: 'short_description' | 'about_me', value: string) => {
+    if (!user) return
+
+    const { error } = await supabase
+      .from('profiles')
+      .upsert({ id: user.id, [dbField]: value })
+
+    if (error) {
+      console.error('Error updating profile:', error)
+    } else {
+      setEditingField(null)
+    }
+  }
 
   const editIcon =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16'%3E%3Cpath fill='%23000' d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.3 1.45L5 19.4 14.06 10.34l.3.3L5.3 18.7zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z'/%3E%3C/svg%3E"
 
-  const toggleField = (field: 'nickname' | 'short-desc' | 'about-me') => {
-    setEditingField(editingField === field ? null : field)
+  const toggleField = (field: 'short-desc' | 'about-me') => {
+    if (editingField === field) {
+      const dbField = field === 'short-desc' ? 'short_description' : 'about_me'
+      const value = field === 'short-desc' ? shortDesc : aboutMe
+      saveField(dbField, value)
+    } else {
+      setEditingField(field)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent, field: 'short-desc' | 'about-me') => {
+    if (e.key === 'Enter') {
+      // For the longer bio, allow Shift+Enter for new lines
+      if (field === 'about-me' && e.shiftKey) return 
+      
+      e.preventDefault()
+      const dbField = field === 'short-desc' ? 'short_description' : 'about_me'
+      const value = field === 'short-desc' ? shortDesc : aboutMe
+      saveField(dbField, value)
+    }
   }
 
   return (
     <div className="profile-info">
-      {/* nickname / display name */}
-      <div className="nickname editable-row">
-        {editingField === 'nickname' ? (
-          <input
-            value={nickname}
-            onChange={(event) => setNickname(event.target.value)}
-            placeholder={nicknamePlaceholder}
-            className="editable-input"
-          />
-        ) : (
-          <span className="editable-placeholder">{nickname || nicknamePlaceholder}</span>
-        )}
-        <button type="button" className="edit-button" onClick={() => toggleField('nickname')}>
-          <img src={editIcon} alt="edit" className="edit-icon" />
-        </button>
-      </div>
-
-      {/* username / static value for now */}
-      <div className="username">Username</div>
-
-      {/* simple stats row */}
-      <div className="stats">
-        <div className="level">Level</div>
-        <div className="badges">Badges</div>
-        <div className="signup-date">Date of signing up</div>
-      </div>
+      {/* username display */}
+      <div className="username">@{username}</div>
 
       {/* short description field */}
       <div className="short-desc editable-row">
@@ -67,11 +96,14 @@ function ProfileDetails({ user }: Props) {
           <input
             value={shortDesc}
             onChange={(event) => setShortDesc(event.target.value)}
+            onKeyDown={(e) => handleKeyDown(e, 'short-desc')}
             placeholder={shortDescPlaceholder}
             className="editable-input"
           />
         ) : (
-          <span className="editable-placeholder">{shortDesc || shortDescPlaceholder}</span>
+          <span className={shortDesc ? "" : "editable-placeholder"}>
+            {shortDesc || shortDescPlaceholder}
+          </span>
         )}
         <button
           type="button"
@@ -88,12 +120,15 @@ function ProfileDetails({ user }: Props) {
           <textarea
             value={aboutMe}
             onChange={(event) => setAboutMe(event.target.value)}
+            onKeyDown={(e) => handleKeyDown(e, 'about-me')}
             rows={3}
             placeholder={aboutMePlaceholder}
             className="editable-textarea"
           />
         ) : (
-          <span className="editable-placeholder">{aboutMe || aboutMePlaceholder}</span>
+          <span className={aboutMe ? "" : "editable-placeholder"}>
+            {aboutMe || aboutMePlaceholder}
+          </span>
         )}
         <button
           type="button"
@@ -152,6 +187,11 @@ function ProfileViewport({ user }: Props) {
 // ------------------------------
 function Profile({ user }: Props) {
   const [route, setRoute] = useState<'home' | 'page1' | 'page2' | 'page3'>('home')
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+  }
 
   return (
     <div className="page debug-outline">
@@ -166,7 +206,7 @@ function Profile({ user }: Props) {
             </li>
             <li>
               <button onClick={() => setRoute('page1')} className={route === 'page1' ? 'active' : ''}>
-                Page 1
+                Charakter-Gestaltung
               </button>
             </li>
             <li>
@@ -181,16 +221,32 @@ function Profile({ user }: Props) {
             </li>
           </ul>
         </nav>
+
+        <div className="sidebar-footer">
+          {showLogoutConfirm ? (
+            <div className="logout-confirmation">
+              <p>are you sure?</p>
+              <div className="logout-buttons">
+                <button onClick={handleLogout} className="logout-confirm">yes</button>
+                <button onClick={() => setShowLogoutConfirm(false)} className="logout-cancel">no</button>
+              </div>
+            </div>
+          ) : (
+            <button onClick={() => setShowLogoutConfirm(true)} className="logout-button">log out</button>
+          )}
+        </div>
       </aside>
 
       <div className="content">
-        {route !== 'home' ? (
+        {route === 'home' ? (
+          <ProfileViewport user={user} />
+        ) : route === 'page1' ? (
+          <CharakterGestaltung user={user} />
+        ) : (
           <div className="placeholder">
-            <h1>{route === 'page1' ? 'Page 1' : route === 'page2' ? 'Page 2' : 'Page 3'}</h1>
+            <h1>{route === 'page2' ? 'Page 2' : 'Page 3'}</h1>
             <p>This is a blank placeholder page.</p>
           </div>
-        ) : (
-          <ProfileViewport user={user} />
         )}
       </div>
     </div>
