@@ -1,285 +1,327 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './supabaseClient'
 import CharakterGestaltung from './CharakterGestaltung'
-import Character from './Character';
+import Character from './Character'
 import './App.css'
+import InterestsSection from './InterestsSection'
+
+import infoIcon from './assets/info_icon.png'
+import editIcon from './assets/edit_icon.png'
 
 interface Props {
   user: any
 }
 
-// ------------------------------
-// Character placeholder tile
-// ------------------------------
-function CharacterPlaceholder({ gender, topIndex, bottomIndex, hairIndex }: any) {
+/* ------------------------------
+   Character placeholder
+------------------------------ */
+function CharacterPlaceholder({ gender, topIndex, bottomIndex, hairIndex, shoeIndex }: any) {
   return (
-    <div className="character-placeholder" style={{ overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      {/* We scale the character logicially so the internal offsets (-93px) stay perfectly aligned */}
-      <div style={{ transform: 'scale(0.72)', transformOrigin: 'center center', flex: 'none' }}>
-        <Character 
+    <div className="character-placeholder">
+      <div className="character-placeholder-inner">
+        <Character
           gender={gender}
           topIndex={topIndex}
           bottomIndex={bottomIndex}
           hairIndex={hairIndex}
+          shoeIndex={shoeIndex}
         />
       </div>
     </div>
-  );
+  )
 }
 
-// ------------------------------
-// Profile details with editable fields
-// ------------------------------
-function ProfileDetails({ user, initialData }: { user: any; initialData: any }) {
+/* ------------------------------
+   Profile details
+------------------------------ */
+function ProfileDetails({
+  user,
+  initialData,
+  averageScore
+}: {
+  user: any
+  initialData: any
+  averageScore: number | null
+}) {
   const [shortDesc, setShortDesc] = useState('')
   const [aboutMe, setAboutMe] = useState('')
-  const [username, setUsername] = useState(initialData?.username || 'Loading...')
+  const [username, setUsername] = useState('Laden...')
   const [editingField, setEditingField] = useState<'short-desc' | 'about-me' | null>(null)
 
-  const shortDescPlaceholder = 'describe your personality in 3 words'
-  const aboutMePlaceholder = 'short bio about you'
+  const toggleField = (field: 'short-desc' | 'about-me') => {
+    setEditingField(prev => (prev === field ? null : field))
+  }
 
   useEffect(() => {
-    if (initialData) {
-      setShortDesc(initialData.short_description || '')
-      setAboutMe(initialData.about_me || '')
-      setUsername(initialData.username || 'No username set')
-    }
+    if (!initialData) return
+    setShortDesc(initialData.short_description || '')
+    setAboutMe(initialData.about_me || '')
+    setUsername(initialData.username || 'Noch kein Benutzername')
   }, [initialData])
-
-  const saveField = async (dbField: 'short_description' | 'about_me', value: string) => {
-    if (!user) return
-
-    const { error } = await supabase
-      .from('profiles')
-      .upsert({ id: user.id, [dbField]: value })
-
-    if (error) {
-      console.error('Error updating profile:', error)
-    } else {
-      setEditingField(null)
-    }
-  }
-
-  const editIcon =
-    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16'%3E%3Cpath fill='%23000' d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.3 1.45L5 19.4 14.06 10.34l.3.3L5.3 18.7zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z'/%3E%3C/svg%3E"
-
-  const toggleField = (field: 'short-desc' | 'about-me') => {
-    if (editingField === field) {
-      const dbField = field === 'short-desc' ? 'short_description' : 'about_me'
-      const value = field === 'short-desc' ? shortDesc : aboutMe
-      saveField(dbField, value)
-    } else {
-      setEditingField(field)
-    }
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent, field: 'short-desc' | 'about-me') => {
-    if (e.key === 'Enter') {
-      // For the longer bio, allow Shift+Enter for new lines
-      if (field === 'about-me' && e.shiftKey) return 
-      
-      e.preventDefault()
-      const dbField = field === 'short-desc' ? 'short_description' : 'about_me'
-      const value = field === 'short-desc' ? shortDesc : aboutMe
-      saveField(dbField, value)
-    }
-  }
 
   return (
     <div className="profile-info">
-      {/* username display */}
       <div className="username">@{username}</div>
 
-      {/* short description field */}
       <div className="short-desc editable-row">
         {editingField === 'short-desc' ? (
           <input
             value={shortDesc}
-            onChange={(event) => setShortDesc(event.target.value)}
-            onKeyDown={(e) => handleKeyDown(e, 'short-desc')}
-            placeholder={shortDescPlaceholder}
-            className="editable-input"
+            onChange={(e) => setShortDesc(e.target.value)}
+            placeholder="beschreibe dich in 3 worten..."
+            onBlur={() => setEditingField(null)}
           />
         ) : (
-          <span className={shortDesc ? "" : "editable-placeholder"}>
-            {shortDesc || shortDescPlaceholder}
-          </span>
+          <span>{shortDesc || 'beschreibe dich in 3 worten...'}</span>
         )}
-        <button
-          type="button"
-          className="edit-button"
-          onClick={() => toggleField('short-desc')}
-        >
-          <img src={editIcon} alt="edit" className="edit-icon" />
+
+        <button className="edit-button" onClick={() => toggleField('short-desc')}>
+          <img src={editIcon} alt="edit" />
         </button>
       </div>
 
-      {/* about me / longer bio field */}
-      <div className="about-me editable-row editable-area">
+      <div className="about-me editable-row">
         {editingField === 'about-me' ? (
-          <textarea
+          <textarea className="editable-textarea"
             value={aboutMe}
-            onChange={(event) => setAboutMe(event.target.value)}
-            onKeyDown={(e) => handleKeyDown(e, 'about-me')}
-            rows={3}
-            placeholder={aboutMePlaceholder}
-            className="editable-textarea"
+            onChange={(e) => setAboutMe(e.target.value)}
+            placeholder="kleines bio über dich..."
+            onBlur={() => setEditingField(null)}
           />
         ) : (
-          <span className={aboutMe ? "" : "editable-placeholder"}>
-            {aboutMe || aboutMePlaceholder}
-          </span>
+          <span>{aboutMe || 'kleines bio über dich...'}</span>
         )}
-        <button
-          type="button"
-          className="edit-button"
-          onClick={() => toggleField('about-me')}
-        >
-          <img src={editIcon} alt="edit" className="edit-icon" />
+
+        <button className="edit-button" onClick={() => toggleField('about-me')}>
+          <img src={editIcon} alt="edit" />
         </button>
+      </div>
+
+      <div className="profile-depth">
+        <span className="depth-label">Profiltiefe</span>
+
+        {averageScore !== null ? (
+          <>
+            <div className="depth-stars">
+              {'★'.repeat(Math.round(averageScore))}
+            </div>
+            <span className="depth-number">
+              {averageScore.toFixed(1)}
+            </span>
+          </>
+        ) : (
+          <div className="depth-locked">
+            noch nicht freigeschaltet
+            <p>
+              Wird freigeschaltet, sobald du 5 Antworten für Interessen eingegeben hast.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
-// ------------------------------
-// Side panel placeholder
-// ------------------------------
+/* ------------------------------
+   Side panel (RESTORED 3 SECTIONS)
+------------------------------ */
 function SideInfo() {
   return (
     <aside className="side-rect" aria-hidden>
-      <h1>Abzeichen</h1>
-      <div className="rect-content">Placeholder content</div>
+      <h1>Lieblingsdinge</h1>
+
+      <div className="fav-section">
+        <div className="rect-content">Section 1 Content</div>
+      </div>
+
+      <div className="fav-section">
+        <div className="rect-content">Section 2 Content</div>
+      </div>
+
+      <div className="fav-section">
+        <div className="rect-content">Section 3 Content</div>
+      </div>
     </aside>
   )
 }
 
-// ------------------------------
-// Main profile viewport
-// ------------------------------
+/* ------------------------------
+   MAIN VIEWPORT
+------------------------------ */
 function ProfileViewport({ user }: Props) {
   const [profileData, setProfileData] = useState<any>(null)
+  const [averageScore, setAverageScore] = useState<number | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchData = async () => {
       if (!user) return
 
-      const { data, error } = await supabase
+      setLoading(true)
+
+      const { data: profile } = await supabase
         .from('profiles')
-        .select('username, short_description, about_me, gender, hair_index, top_index, bottom_index')
+        .select('*')
         .eq('id', user.id)
         .maybeSingle()
 
-      if (!error && data) {
-        setProfileData(data)
+      setProfileData(profile)
+
+      const { data: answers } = await supabase
+        .from('answers')
+        .select('score')
+        .eq('user_id', user.id)
+
+      if (answers && answers.length >= 5) {
+        const total = answers.reduce((sum, a) => sum + (a.score || 0), 0)
+        setAverageScore(total / answers.length)
+      } else {
+        setAverageScore(null)
       }
+
+      setLoading(false)
     }
 
-    fetchProfile()
+    fetchData()
   }, [user])
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="spinner" />
+        <p>Lädt...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="viewport">
       <div className="top-area">
         <section className="main-card">
           <h1>Profil</h1>
+
           <div className="profile-layout">
-            <CharacterPlaceholder 
-              gender={profileData?.gender || 'female'} 
-              topIndex={profileData?.top_index || 0} 
-              bottomIndex={profileData?.bottom_index || 0} 
+            <CharacterPlaceholder
+              gender={profileData?.gender || 'female'}
+              topIndex={profileData?.top_index || 0}
+              bottomIndex={profileData?.bottom_index || 0}
               hairIndex={profileData?.hair_index || 0}
+              shoeIndex={profileData?.shoe_index || 0}
             />
-            <ProfileDetails 
-              user={user} 
+
+            <ProfileDetails
+              user={user}
               initialData={profileData}
+              averageScore={averageScore}
             />
           </div>
         </section>
+
         <SideInfo />
       </div>
 
-      <h1>Interessen</h1>
+      <div className="interests-header">
+        <h1>Interessen</h1>
 
-      <section className="gallery" aria-label="Gallery of tiles">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className={`tile tile-${i + 1}`}>Tile {i + 1}</div>
-        ))}
-      </section>
-    </div>
-  )
+        <div className="info-tooltip">
+          <img
+            src={infoIcon}
+            alt="info"
+            className="info-icon"
+          />
+
+          <div className="tooltip-box">
+            <strong>Authentizitätslevel</strong>
+            <br />
+
+            <small>
+              Deine Antworten werden mit 1–5 Sternen bewertet.
+              Persönlichere und ausführlichere Antworten erhalten mehr Sterne.
+            </small>
+
+            <div className="tooltip-row">
+              <span>★</span>
+              <span>verschlossen</span>
+            </div>
+
+            <div className="tooltip-row">
+              <span>★★</span>
+              <span>vorsichtig offen</span>
+            </div>
+
+            <div className="tooltip-row">
+              <span>★★★</span>
+              <span>authentisch</span>
+            </div>
+
+            <div className="tooltip-row">
+              <span>★★★★</span>
+              <span>ausdrucksstark</span>
+            </div>
+
+            <div className="tooltip-row">
+              <span>★★★★★</span>
+              <span>sehr tiefgründig</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <InterestsSection user={user} editIcon={editIcon} />
+      </div>
+      )
 }
 
-// ------------------------------
-// Page wrapper with sidebar navigation
-// ------------------------------
-function Profile({ user }: Props) {
+      /* ------------------------------
+         PAGE WRAPPER
+      ------------------------------ */
+      export default function Profile({user}: Props) {
   const [route, setRoute] = useState<'home' | 'page1' | 'page2' | 'page3'>('home')
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
+      const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
-  }
+        await supabase.auth.signOut()
+      }
 
-  return (
-    <div className="page debug-outline">
-      <aside className="sidebar" aria-label="Sidebar navigation">
-        <h2>Pages</h2>
-        <nav>
-          <ul>
-            <li>
-              <button onClick={() => setRoute('home')} className={route === 'home' ? 'active' : ''}>
-                Home
-              </button>
-            </li>
-            <li>
-              <button onClick={() => setRoute('page1')} className={route === 'page1' ? 'active' : ''}>
-                Charakter-Gestaltung
-              </button>
-            </li>
-            <li>
-              <button onClick={() => setRoute('page2')} className={route === 'page2' ? 'active' : ''}>
-                Page 2
-              </button>
-            </li>
-            <li>
-              <button onClick={() => setRoute('page3')} className={route === 'page3' ? 'active' : ''}>
-                Page 3
-              </button>
-            </li>
-          </ul>
-        </nav>
+      return (
+      <div className="page">
+        <aside className="sidebar">
+          <h2>Seiten</h2>
 
-        <div className="sidebar-footer">
-          {showLogoutConfirm ? (
-            <div className="logout-confirmation">
-              <p>are you sure?</p>
-              <div className="logout-buttons">
-                <button onClick={handleLogout} className="logout-confirm">yes</button>
-                <button onClick={() => setShowLogoutConfirm(false)} className="logout-cancel">no</button>
-              </div>
-            </div>
+          <button onClick={() => setRoute('home')}>Home</button>
+          <button onClick={() => setRoute('page1')}>Charakter</button>
+          <button onClick={() => setRoute('page2')}>Page 2</button>
+          <button onClick={() => setRoute('page3')}>Page 3</button>
+
+          <div className="sidebar-footer">
+            <button onClick={() => setShowLogoutConfirm(true)}>
+              abmelden
+            </button>
+          </div>
+        </aside>
+
+        <div className="content">
+          {route === 'home' ? (
+            <ProfileViewport user={user} />
+          ) : route === 'page1' ? (
+            <CharakterGestaltung user={user} />
           ) : (
-            <button onClick={() => setShowLogoutConfirm(true)} className="logout-button">log out</button>
+            <div className="placeholder">
+              <h1>{route}</h1>
+              <p>Blank page</p>
+            </div>
           )}
         </div>
-      </aside>
 
-      <div className="content">
-        {route === 'home' ? (
-          <ProfileViewport user={user} />
-        ) : route === 'page1' ? (
-          <CharakterGestaltung user={user} />
-        ) : (
-          <div className="placeholder">
-            <h1>{route === 'page2' ? 'Page 2' : 'Page 3'}</h1>
-            <p>This is a blank placeholder page.</p>
+        {showLogoutConfirm && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>Abmelden?</h3>
+              <button onClick={handleLogout}>Ja</button>
+              <button onClick={() => setShowLogoutConfirm(false)}>Nein</button>
+            </div>
           </div>
         )}
       </div>
-    </div>
-  )
+      )
 }
-
-export default Profile
