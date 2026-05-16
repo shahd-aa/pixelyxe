@@ -94,8 +94,16 @@ const CharakterGestaltung: React.FC<CharakterProps> = ({ user }) => {
   };
 
   return (
-    <div className="charakter-gestaltung">
 
+    <div className="character-page">
+      <div className="charakter-gestaltung-header">
+        <h1 className="faq-title gradient-text">
+          Charakter-Gestaltung
+        </h1>
+      </div>
+
+
+    <div className="charakter-gestaltung">
       {/* LEFT PANEL */}
       <div className="character-display-panel">
         <h3>Charakter-Vorschau</h3>
@@ -119,19 +127,19 @@ const CharakterGestaltung: React.FC<CharakterProps> = ({ user }) => {
 
           <div style={{ textAlign: 'center' }}>
             <span style={{ fontSize: '11px', opacity: 0.5, textTransform: 'capitalize' }}>
-              Bearbeite: {activeCategory === 'hair' ? 'Haare' : 
-                          activeCategory === 'tops' ? 'Oberteil' : 
-                          activeCategory === 'bottoms' ? 'Hose' : 'Schuhe'}
+              Bearbeite: {activeCategory === 'hair' ? 'Haare' :
+                activeCategory === 'tops' ? 'Oberteil' :
+                  activeCategory === 'bottoms' ? 'Hose' : 'Schuhe'}
             </span>
 
             <div style={{ fontWeight: 600 }}>
               {activeCategory === 'hair'
                 ? `Frisur #${hairIndex + 1}`
                 : activeCategory === 'tops'
-                ? `Oberteil #${topIndex + 1}`
-                : activeCategory === 'bottoms'
-                ? `Hose #${bottomIndex + 1}`
-                : `Schuhe #${shoeIndex + 1}`}
+                  ? `Oberteil #${topIndex + 1}`
+                  : activeCategory === 'bottoms'
+                    ? `Hose #${bottomIndex + 1}`
+                    : `Schuhe #${shoeIndex + 1}`}
             </div>
           </div>
 
@@ -165,6 +173,8 @@ const CharakterGestaltung: React.FC<CharakterProps> = ({ user }) => {
           Aussehen speichern
         </button>
       </div>
+
+    </div>
 
     </div>
   );
