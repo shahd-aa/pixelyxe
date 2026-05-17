@@ -8,6 +8,9 @@ const slideImages = [
   'https://via.placeholder.com/900x420/0F766E/ffffff?text=Placeholder+Slide+3',
 ]
 
+import firstFeature from './assets/interest_showcase.png'
+import secondFeature from './assets/customization_showcase.png'
+
 function SlideShow() {
   const [currentSlide, setCurrentSlide] = useState(0)
 
@@ -59,9 +62,9 @@ function Homepage() {
           <div className="homepage-content">
             <h1>PIXELYXE</h1>
             <h3>
-            Wer bist du — in einer Welt voller Algorithmen?  <br />
-            Gestalte jetzt deine eigene digitale Identität — <br />
-            Zeig, was dich ausmacht. 
+              Wer bist du, in einer Welt voller Algorithmen?  <br />
+              Gestalte jetzt deine eigene digitale Identität. <br />
+              Zeig, was dich ausmacht.
             </h3>
             {showSignUp ? <SignUp onToggle={() => setShowSignUp(false)} /> : <Login onToggle={() => setShowSignUp(true)} />}
             <SlideShow />
@@ -73,22 +76,58 @@ function Homepage() {
         )}
       </div>
       <section className="homepage-extra-section curved-path">
+
         <div className="seperator-div quote">
-            <blockquote>„Deine Identität ist das Sichtbare und Benennbare; dein wahres Selbst liegt jenseits aller Begriffe.”</blockquote>
+          <blockquote>„Deine Identität ist das Sichtbare und Benennbare; dein wahres Selbst liegt jenseits aller Begriffe.”</blockquote>
+
+        </div>
+        <div className="first-feature">
+          <img
+            src={firstFeature}
+            alt="Feature"
+            className="feature-image"
+          />
+
+          <div className="feature-text">
+            <h2>Digitale Identität</h2>
+            <p>
+              Erstelle ein einzigartiges Profil, das deine wahre Persönlichkeit widerspiegelt, indem du Fragen beantwortest.
+            </p>
+          </div>
         </div>
       </section>
+
       <section className="homepage-extra-section path-end">
-        <div className="seperator-div review">
-          <div className="review-left">
-            <div className="profile-picture"></div>
-            <div className="stars">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="star" />
-              ))}
-            </div>
+        {/*
+        <div className="second-feature">
+          <img
+            src={secondFeature}
+            alt="Feature"
+            className="feature-image"
+          />
+
+          <div className="feature-text">
+            <h2>Digitale Identität</h2>
+            <p>
+              Erstelle ein einzigartiges Profil, das deine wahre Persönlichkeit widerspiegelt, indem du Fragen beantwortest.
+            </p>
           </div>
-          <div className="review-text">Ich bin so happy, dass ich endlich ein einzigartiges Profil meiner Personlichkeit erstellen und es meinen Freunden zeigen kann! <span>Quak... Quaaak!</span> </div>
+          
         </div>
+        */}
+          <div className="seperator-div review">
+
+
+            <div className="review-left">
+              <div className="profile-picture"></div>
+              <div className="stars">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="star" />
+                ))}
+              </div>
+            </div>
+            <div className="review-text">Ich bin so happy, dass ich endlich ein einzigartiges Profil meiner Personlichkeit erstellen und es meinen Freunden zeigen kann! <span>Quak... Quaaak!</span> </div>
+          </div>
       </section>
       <div className="homepage-end-info">
         test test test
