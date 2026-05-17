@@ -193,6 +193,17 @@ function SideInfo({ favorites, setActivePicker }: any) {
 /* ------------------------------ */
 function ProfileViewport({ user }: Props) {
   const [profileData, setProfileData] = useState<any>(null)
+  const shareUrl = profileData?.username
+    ? `${window.location.origin}/u/${profileData.username}`
+    : ''
+
+  const [copied, setCopied] = useState(false)
+  const [showSharePopup, setShowSharePopup] = useState(false)
+  const closeSharePopup = () => {
+    setShowSharePopup(false)
+    setCopied(false)
+  }
+
   const [averageScore, setAverageScore] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -282,7 +293,13 @@ function ProfileViewport({ user }: Props) {
         </div>
         <div className="top-area">
           <section className="main-card">
-            <h1>Profil</h1>
+            <div className="profile-header">
+              <h1>Profil</h1>
+
+              <button className="share-button" onClick={() => setShowSharePopup(true)}>
+                profil teilen
+              </button>
+            </div>
 
             <div className="profile-layout">
               <CharacterPlaceholder
@@ -353,6 +370,35 @@ function ProfileViewport({ user }: Props) {
             </div>
           </div>
         </div>
+
+        {showSharePopup && (
+          <div className="share-popup-overlay">
+            <div className="share-popup">
+              <p>dein profil link</p>
+
+              <div className="share-row">
+                <span className="share-url">{shareUrl}</span>
+
+                <button
+                  className="share-copy-btn"
+                  onClick={() => {
+                    if (!shareUrl) return
+                    navigator.clipboard.writeText(shareUrl)
+                  }}
+                >
+                  kopieren
+                </button>
+              </div>
+
+              <button
+                className="share-ok-button"
+                onClick={() => setShowSharePopup(false)}
+              >
+                ok
+              </button>
+            </div>
+          </div>
+        )}
 
         <InterestsSection user={user} editIcon={editIcon} />
       </div>
@@ -453,6 +499,8 @@ function ProfileViewport({ user }: Props) {
                 ))
               }
 
+
+
             </div>
           </div>
         </div>
@@ -506,13 +554,13 @@ export default function Profile({ user }: Props) {
           <CharakterGestaltung user={user} />
 
         ) : route === 'page2' ? (
-            <FAQPage />
+          <FAQPage />
         ) : (
 
-        <div className="placeholder">
-          <h1>{route}</h1>
-          <p>Blank page</p>
-        </div>
+          <div className="placeholder">
+            <h1>{route}</h1>
+            <p>Blank page</p>
+          </div>
         )}
       </div>
 

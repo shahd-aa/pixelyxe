@@ -22,53 +22,59 @@ function SignUp({ onToggle }: { onToggle: () => void }) {
 
     // 1. Create the Auth account
     const { data, error: signUpError } = await supabase.auth.signUp({ email, password })
-
-    if (signUpError) {
-      setError(signUpError.message)
+    if (data.session) {
+      window.location.href = "/app"
       return
     }
 
-    // 2. Update the profile row with the username
-    if (data.user) {
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .upsert({ 
-          id: data.user.id, 
-          username: username 
-        })
+      console.log("login result:", data)
+      console.log("login error:", error)
+      if (signUpError) {
+        setError(signUpError.message)
+        return
+      }
 
-      if (profileError) {
-        console.error('Profile creation error:', profileError.message)
-        // Note: If this fails, the Auth account is still created.
+      // 2. Update the profile row with the username
+      if (data.user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .upsert({
+            id: data.user.id,
+            username: username
+          })
+
+        if (profileError) {
+          console.error('Profile creation error:', profileError.message)
+          // Note: If this fails, the Auth account is still created.
+        }
       }
     }
+
+    return (
+      <div className="auth-form-container">
+        <div className="auth-form">
+          <h1>anmelden</h1>
+          <input
+            type="text"
+            placeholder="benutzername"
+            onChange={e => setUsername(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="email"
+            onChange={e => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="passwort"
+            onChange={e => setPassword(e.target.value)}
+          />
+          <button onClick={handleSignUp}>anmelden</button>
+          {error && <p>{error}</p>}
+        </div>
+        <p className="auth-toggle">Du hast schon ein Konto? <button className="auth-toggle-btn" onClick={onToggle}>Hier einloggen</button></p>
+      </div>
+    )
   }
 
-  return (
-    <div className="auth-form-container">
-      <div className="auth-form">
-        <h1>anmelden</h1>
-      <input
-        type="text"
-        placeholder="benutzername"
-        onChange={e => setUsername(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="email"
-        onChange={e => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="passwort"
-        onChange={e => setPassword(e.target.value)}
-      />
-      <button onClick={handleSignUp}>anmelden</button>
-      {error && <p>{error}</p>}
-      </div>
-      <p className="auth-toggle">Du hast schon ein Konto? <button className="auth-toggle-btn" onClick={onToggle}>Hier einloggen</button></p>
-    </div>
-  )
-}
-
-export default SignUp
+  export default SignUp

@@ -1,0 +1,364 @@
+.public-profile-page {
+    min-height: 100vh;
+    background: #1f1f2d;
+
+    padding: 40px 20px;
+
+    display: flex;
+    justify-content: center;
+
+    font-family: 'Pixelify Sans', sans-serif;
+}
+
+.public-profile-card {
+    width: 100%;
+    max-width: 1100px;
+
+    background: #333f4c;
+    border: 4px solid black;
+
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    box-shadow: 8px 8px 0px black;
+}
+
+/* ---------------- HEADER ---------------- */
+
+.public-profile-header {
+    display: grid;
+
+    grid-template-columns:
+        220px minmax(250px, 1fr) 320px;
+
+    gap: 32px;
+    align-items: start;
+}
+
+.public-profile-left {
+    width: 220px;
+    height: 300px;
+
+    border: 3px solid black;
+    background: #f6f6f6;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.public-profile-right {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    min-width: 0;
+}
+
+.public-profile-right h1 {
+    font-size: 42px;
+    margin: 0;
+}
+
+.public-short-desc {
+    font-size: 18px;
+    color: #ffffffbc;
+}
+
+.public-depth {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 18px;
+}
+
+.public-stars {
+    font-size: 22px;
+    letter-spacing: 2px;
+}
+
+/* ---------------- ABOUT ---------------- */
+
+.public-about-box {
+    align-items: left;
+    justify-content: left;
+    display: flex;
+    flex-direction: column;
+    border-left: 3px solid black;
+    padding: 20px;
+    width: 100%;
+    gap: 20px;
+}
+
+.public-about-box h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.public-about-box p {
+    margin: 0;
+
+    line-height: 1.5;
+    font-size: 18px;
+
+    color: #ffffffbc;
+}
+
+/* ---------------- SECTIONS ---------------- */
+
+.public-section {
+    border-top: 3px solid black;
+    padding-top: 22px;
+}
+
+.public-section h2 {
+    font-size: 28px;
+    margin-bottom: 18px;
+}
+
+/* ---------------- FAVORITES ---------------- */
+
+.public-favorites-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+
+    gap: 18px;
+}
+
+.public-favorite-card {
+    border: 3px solid black;
+    background: #59747b;
+
+    padding: 16px;
+    min-height: 180px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+
+    text-align: center;
+}
+
+.public-favorite-card span {
+    font-size: 18px;
+}
+
+.public-favorite-img {
+    width: 72px;
+    height: 72px;
+
+    object-fit: contain;
+
+    image-rendering: pixelated;
+}
+
+.social-icon {
+    border: 2px solid black;
+    padding: 4px;
+
+    background: white;
+}
+
+.public-none {
+    opacity: 0.5;
+    font-size: 14px;
+}
+
+/* ---------------- INTERESTS ---------------- */
+
+.public-interests-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+.public-interest-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 16px;
+}
+
+.public-interest-card {
+    border: 3px solid black;
+    background: #59747b;
+
+    padding: 18px;
+    min-height: 170px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    overflow: hidden;
+}
+
+.public-interest-card h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.public-interest-card p {
+    margin: 0;
+
+    line-height: 1.4;
+    font-size: 15px;
+
+    color: #ffffffbc;
+}
+
+/* ---------------- FADED ROW ---------------- */
+
+.public-interest-row-wrapper {
+    position: relative;
+}
+
+.faded-row {
+    opacity: 0.3;
+
+    filter: blur(2px);
+
+    user-select: none;
+    pointer-events: none;
+}
+
+/* ---------------- OVERLAY ---------------- */
+
+.interest-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 20px;
+}
+
+.interest-overlay h3 {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.interest-overlay p {
+    margin-bottom: 20px;
+    color: #ffffffbc;
+}
+
+.interest-overlay button {
+    border: 3px solid black;
+    background: #ffd9d9;
+
+    padding: 12px 18px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+    font-family: 'Pixelify Sans', sans-serif;
+
+    transition: 0.15s;
+}
+
+.interest-overlay button:hover {
+    transform: translateY(-2px);
+    background: #ffcaca;
+}
+
+/* ---------------- FOOTER ---------------- */
+
+.public-footer {
+    border-top: 3px solid black;
+
+    padding-top: 24px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.public-signup-button {
+    border: 3px solid black;
+    background: #ffd9d9;
+
+    padding: 14px 22px;
+
+    font-size: 18px;
+    font-family: 'Pixelify Sans', sans-serif;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+}
+
+.public-signup-button:hover {
+    transform: translateY(-2px);
+    background: #ffcaca;
+}
+
+/* ---------------- MOBILE ---------------- */
+
+@media (max-width: 900px) {
+
+    .public-profile-header {
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        text-align: center;
+    }
+
+    .public-profile-right {
+        align-items: center;
+    }
+
+    .public-about-box {
+        align-items: left;
+        justify-content: left;
+        display: flex;
+        border-left: none;
+        border-top: 3px solid black;
+
+        padding-left: 0;
+        padding-top: 18px;
+        margin: 20px 40px;
+
+        width: 100%;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .public-profile-card {
+        padding: 20px;
+    }
+
+    .public-profile-right h1 {
+        font-size: 34px;
+    }
+
+    .public-section h2 {
+        font-size: 24px;
+    }
+
+    .interest-overlay h3 {
+        font-size: 24px;
+    }
+}

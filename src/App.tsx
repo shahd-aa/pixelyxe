@@ -1,25 +1,40 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
-import Homepage from './Homepage'
+import { Routes, Route } from 'react-router-dom'
 import Profile from './Profile'
+import PublicProfile from './PublicProfile.tsx'
+import Homepage from './Homepage'
 import type { User } from '@supabase/supabase-js'
 
 function App() {
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
-  // onAuthStateChange listens for ANY auth event (login, logout, signup)
-  // and automatically updates the user whenever something changes
-  const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-    setUser(session?.user ?? null) // if there's a session set the user, otherwise set null
-  })
+    const { data: { subscription } } =
+      supabase.auth.onAuthStateChange((event, session) => {
+        console.log("auth event:", event)
+        console.log("session:", session)
 
-  // cleanup: stop listening when the component unmounts
-  return () => subscription.unsubscribe()
-}, [])
+        setUser(session?.user ?? null)
+      })
 
-  if (user) return <Profile user={user} /> // logged in → show profile
-  return <Homepage />                      // not logged in → show homepage
+    return () => subscription.unsubscribe()
+  }, [])
+
+  return (
+    <Routes>
+      {/* public homepage */}
+      <Route path="/" element={<Homepage />} />
+
+      <Route
+  path="/app"
+  element={user ? <Profile user={user} /> : <Homepage />}
+/>
+
+      {/* public shareable profile */}
+      <Route path="/u/:username" element={<PublicProfile />} />
+    </Routes>
+  )
 }
 
 export default App
