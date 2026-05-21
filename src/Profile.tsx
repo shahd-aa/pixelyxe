@@ -45,6 +45,29 @@ function ProfileDetails({
   const [aboutMe, setAboutMe] = useState('')
   const [username, setUsername] = useState('Laden...')
   const [editingField, setEditingField] = useState<'short-desc' | 'about-me' | null>(null)
+  const ALL_TAGS = [
+    "Gaming",
+    "Cooking",
+    "Drawing",
+    "Reading",
+    "Music",
+    "Fitness",
+    "Travel",
+    "Coding",
+    "Photography",
+    "Movies"
+  ]
+
+  const [tags, setTags] = useState<string[]>([])
+  const [tagOpen, setTagOpen] = useState(false)
+
+  const toggleTag = (tag: string) => {
+    setTags(prev =>
+      prev.includes(tag)
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag]
+    )
+  }
 
   const toggleField = (field: 'short-desc' | 'about-me') => {
     setEditingField(prev => (prev === field ? null : field))
@@ -94,6 +117,63 @@ function ProfileDetails({
         <button className="edit-button" onClick={() => toggleField('about-me')}>
           <img src={editIcon} />
         </button>
+      </div>
+
+      <div className="hobby-tags">
+
+        <div className="tag-header">
+          <span>Hobbies</span>
+
+          <button
+            className="tag-open-btn"
+            onClick={() => setTagOpen(true)}
+          >
+            bearbeiten
+          </button>
+        </div>
+
+        <div className="tag-display">
+          {tags.length === 0 ? (
+            <div className="tag-empty">
+              noch keine hobbies ausgewählt
+            </div>
+          ) : (
+            tags.map(tag => (
+              <span key={tag} className="tag-pill">
+                {tag}
+              </span>
+            ))
+          )}
+        </div>
+
+        {tagOpen && (
+          <div className="tag-overlay" onClick={() => setTagOpen(false)}>
+            <div className="tag-modal" onClick={(e) => e.stopPropagation()}>
+
+              <h3>Hobbies auswählen</h3>
+
+              <div className="tag-grid">
+                {ALL_TAGS.map(tag => (
+                  <button
+                    key={tag}
+                    className={`tag-option ${tags.includes(tag) ? "active" : ""}`}
+                    onClick={() => toggleTag(tag)}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                className="tag-done-btn"
+                onClick={() => setTagOpen(false)}
+              >
+                fertig
+              </button>
+
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="profile-depth">

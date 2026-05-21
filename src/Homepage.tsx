@@ -10,6 +10,7 @@ const slideImages = [
 
 import firstFeature from './assets/interest_showcase.png'
 import secondFeature from './assets/customization_showcase.png'
+import thirdFeature from './assets/items_showcase.png'
 
 function SlideShow() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -81,56 +82,92 @@ function Homepage() {
           <blockquote>„Deine Identität ist das Sichtbare und Benennbare; dein wahres Selbst liegt jenseits aller Begriffe.”</blockquote>
 
         </div>
-        <div className="first-feature">
-          <img
-            src={firstFeature}
-            alt="Feature"
-            className="feature-image"
-          />
+        <div className="feature-row">
+          <div className="first-feature feature">
+            <img
+              src={firstFeature}
+              alt="Feature"
+              className="feature-image"
+            />
 
-          <div className="feature-text">
-            <h2>Digitale Identität</h2>
-            <p>
-              Erstelle ein einzigartiges Profil, das deine wahre Persönlichkeit widerspiegelt, indem du Fragen beantwortest.
-            </p>
+            <div className="feature-text">
+              <h2>Digitale Identität</h2>
+              <p>
+                Erstelle ein einzigartiges Profil, das deine wahre Persönlichkeit widerspiegelt, indem du Fragen beantwortest.
+              </p>
+            </div>
+          </div>
+
+          <div className="second-feature feature">
+            <img
+              src={secondFeature}
+              alt="Feature"
+              className="feature-image second-feature-image"
+            />
+
+            <div className="feature-text second-feature-text">
+              <h2>Digitale Identität</h2>
+              <p>
+                Erstelle ein einzig-artiges Profil, das deine wahre Persönlich-keit wider-spiegelt, indem du Fragen beantwortest.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       <section className="homepage-extra-section path-end">
-        {/*
-        <div className="second-feature">
-          <img
-            src={secondFeature}
-            alt="Feature"
-            className="feature-image"
-          />
-
-          <div className="feature-text">
-            <h2>Digitale Identität</h2>
-            <p>
-              Erstelle ein einzigartiges Profil, das deine wahre Persönlichkeit widerspiegelt, indem du Fragen beantwortest.
-            </p>
-          </div>
-          
-        </div>
-        */}
-          <div className="seperator-div review">
 
 
-            <div className="review-left">
-              <div className="profile-picture"></div>
-              <div className="stars">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="star" />
-                ))}
-              </div>
+
+        <div className="seperator-div review">
+
+
+          <div className="review-left">
+            <div className="profile-picture"></div>
+            <div className="stars">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="star" />
+              ))}
             </div>
-            <div className="review-text">Ich bin so happy, dass ich endlich ein einzigartiges Profil meiner Personlichkeit erstellen und es meinen Freunden zeigen kann! <span>Quak... Quaaak!</span> </div>
           </div>
+          <div className="review-text">Ich bin so happy, dass ich endlich ein einzigartiges Profil meiner Personlichkeit erstellen und es meinen Freunden zeigen kann! <span>Quak... Quaaak!</span> </div>
+        </div>
+
+         <div className="feature-row">
+          <div className="third-feature feature">
+            <img
+              src={thirdFeature}
+              alt="Feature"
+              className="feature-image"
+            />
+
+            <div className="feature-text">
+              <h2>Digitale Identität</h2>
+              <p>
+                Erstelle ein einzigartiges Profil, das deine wahre Persönlichkeit widerspiegelt, indem du Fragen beantwortest.
+              </p>
+            </div>
+          </div>
+
+          <div className="fourth-feature feature">
+            <img
+              src={secondFeature}
+              alt="Feature"
+              className="feature-image fourth-feature-image"
+            />
+
+            <div className="feature-text fourth-feature-text">
+              <h2>Digitale Identität</h2>
+              <p>
+                Erstelle ein einzig-artiges Profil, das deine wahre Persönlich-keit wider-spiegelt, indem du Fragen beantwortest.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
+
       <div className="homepage-end-info">
-        test test test
+        <p>programmed with ❤️ by shahd and chatgpt + copilot</p>
       </div>
     </div>
   )
