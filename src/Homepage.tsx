@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Login from './Login'
 import SignUp from './SignUp'
+import './Homepage.css'
 
 const slideImages = [
   'https://via.placeholder.com/900x420/5B21B6/ffffff?text=Placeholder+Slide+1',
