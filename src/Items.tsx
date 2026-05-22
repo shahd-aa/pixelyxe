@@ -7,6 +7,9 @@ import strawberry_milkshake from './assets/items/drinks/strawberry_milkshake.png
 import rose from './assets/items/flowers/rose.png'
 import cherry_blossom from './assets/items/flowers/cherry_blossom.png'
 import sunflower from './assets/items/flowers/sunflower.png'
+import lilypad from './assets/items/flowers/lilypad.png'
+import tulip from './assets/items/flowers/upside_down_tulip.png'
+
 
 import instagram from './assets/items/social_media/insta_icon.png'
 import tiktok from './assets/items/social_media/tiktok_icon.png'
@@ -34,6 +37,8 @@ export const FLOWERS: Item[] = [
   { id: 'rose', label: 'Rose', img: rose },
   { id: 'cherry_blossom', label: 'Cherry Blossom', img: cherry_blossom },
   { id: 'sunflower', label: 'Sunflower', img: sunflower },
+  { id: 'lilypad', label: 'Lilypad', img: lilypad },
+  { id: 'tulip', label: 'Tulip', img: tulip },
 ]
 
 export const SOCIALS: Item[] = [
