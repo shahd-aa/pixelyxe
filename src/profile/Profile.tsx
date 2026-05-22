@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseClient'
-import CharakterGestaltung from '../character/CharakterGestaltung'
+import CharakterGestaltung from "../character/CharacterGestaltung"
 import Character from '../character/Character'
 import '../App.css'
+import './Profile.css'
 import InterestsSection from '../interests/InterestsSection'
 import { DRINKS, FLOWERS, SOCIALS } from '../Items'
 import FAQPage from '../FAQPage'

@@ -1,0 +1,131 @@
+.settings-page {
+  padding: 28px;
+  color: var(--ui-text);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.settings-page h1 {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: 0.5px;
+}
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 12px;
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+}
+
+.settings-section h2 {
+  margin: 0;
+  font-size: 20px;
+  opacity: 0.9;
+}
+
+/* GRID */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* THEME BUTTONS */
+.theme-grid button {
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--ui-border);
+  cursor: pointer;
+
+  background: var(--ui-button);
+  color: black;
+
+  font-weight: 600;
+  letter-spacing: 0.3px;
+
+  transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.theme-grid button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.theme-grid button:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* BACK BUTTON */
+.back-btn {
+  margin-top: 10px;
+  align-self: flex-start;
+
+  padding: 10px 16px;
+  border-radius: 10px;
+
+  border: 1px solid var(--ui-border);
+  background: transparent;
+  color: var(--ui-text);
+
+  cursor: pointer;
+
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.back-btn:hover {
+  background: var(--ui-surface);
+  transform: translateY(-2px);
+}
+
+.back-btn:active {
+  transform: translateY(0px);
+}
+
+/* THEMES */
+
+:root[data-theme="default"] {
+  --profile-bg: #312046;
+  --character-bg: #7380a7;
+  --tile-color: #5ca5a1;
+  --button-color: #d2a3aa;
+  --sidebar-color: #3f4768;
+}
+
+:root[data-theme="ocean"] {
+  --profile-bg: #0f172a;
+  --character-bg: #1e3a5f;
+  --tile-color: #2dd4bf;
+  --button-color: #38bdf8;
+  --sidebar-color: #111827;
+}
+
+:root[data-theme="sunset"] {
+  --profile-bg: #2b193d;
+  --character-bg: #6d597a;
+  --tile-color: #ff7a59;
+  --button-color: #ffb4a2;
+  --sidebar-color: #3f2e56;
+}
+
+:root[data-theme="mint"] {
+  --profile-bg: #1b2f2a;
+  --character-bg: #3aa69b;
+  --tile-color: #5eead4;
+  --button-color: #a7f3d0;
+  --sidebar-color: #12332e;
+}
+
+:root[data-theme="mono"] {
+  --profile-bg: #111111;
+  --character-bg: #2a2a2a;
+  --tile-color: #444444;
+  --button-color: #888888;
+  --sidebar-color: #1a1a1a;
+}

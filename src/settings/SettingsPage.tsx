@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import './SettingsPage.css'
 
 type Props = {
   setRoute: (r: 'home' | 'page1' | 'page2' | 'settings') => void

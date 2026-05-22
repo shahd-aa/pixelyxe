@@ -1,0 +1,92 @@
+.gallery {
+  width: 100%;
+  margin-top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tile-gap);
+  /* single-row: allow horizontal scroll if more items are added */
+  /* overflow-x: auto; */
+  align-items: center;
+  /* ensure there's no accidental extra width caused by padding */
+  padding-bottom: 4px;
+}
+
+/* MODAL */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  padding: 24px;
+  border: 1px solid var(--ui-border);
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--complementary-color)
+}
+
+.tile {
+  background: var(--complementary-color);
+  border: 1px solid var(--border-color);
+  height: var(--tile-height);
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ui-text);
+
+  /* make 3 tiles fit the viewport width without wrapping; use tile gap variable */
+  flex: 0 0 calc((100% - 2 * var(--tile-gap)) / 3);
+}
+
+.tile.interest-tile {
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+
+.interest-question {
+  font-size: 18px;
+  /* Adjusted for better fit in smaller tiles */
+  text-align: center;
+}
+
+.interest-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+  gap: 4px;
+  width: 90%;
+  font-size: 16px;
+  line-height: 1.75;
+  font-weight: normal;
+  font-style: italic;
+  word-break: break-word;
+  cursor: pointer;
+}
+
+.interest-display .edit-button {
+  flex-shrink: 0;
+}
+
+.enter-answer-btn {
+  background: var(--accent-color);
+  color: var(--ui-text);
+  border: 2px solid var(--ui-border);
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 0;
+  transition: background 0.2s;
+}

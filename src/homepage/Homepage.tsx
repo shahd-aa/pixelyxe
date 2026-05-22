@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Login from '../Login.tsx'
 import SignUp from '../SignUp.tsx'
 import './Homepage.css'
+import '../App.css'
 
 const slideImages = [
   'https://via.placeholder.com/900x420/5B21B6/ffffff?text=Placeholder+Slide+1',
