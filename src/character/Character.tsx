@@ -1,32 +1,32 @@
 import React from 'react';
 
 // assets
-import femaleBase from './assets/char_customization/base/female_base.png';
-import maleBase from './assets/char_customization/base/male_base.png';
+import femaleBase from '../assets/char_customization/base/female_base.png';
+import maleBase from '../assets/char_customization/base/male_base.png';
 
-import whiteShirt from './assets/char_customization/tops/white_shirt.png';
-import blueShirt from './assets/char_customization/tops/blue_shirt.png';
-import yellowShirt from './assets/char_customization/tops/yellow_shirt.png';
-import pinkShirt from './assets/char_customization/tops/pink_shirt.png';
-import grayShirt from './assets/char_customization/tops/gray_shirt.png';
-import purpleShirt from './assets/char_customization/tops/purple_shirt.png';
+import whiteShirt from '../assets/char_customization/tops/white_shirt.png';
+import blueShirt from '../assets/char_customization/tops/blue_shirt.png';
+import yellowShirt from '../assets/char_customization/tops/yellow_shirt.png';
+import pinkShirt from '../assets/char_customization/tops/pink_shirt.png';
+import grayShirt from '../assets/char_customization/tops/gray_shirt.png';
+import purpleShirt from '../assets/char_customization/tops/purple_shirt.png';
 
-import bluePants from './assets/char_customization/bottoms/blue_pants.png';
-import brownPants from './assets/char_customization/bottoms/brown_pants.png';
-import grayPants from './assets/char_customization/bottoms/gray_pants.png';
-import turqoisePants from './assets/char_customization/bottoms/turqoise_pants.png';
+import bluePants from '../assets/char_customization/bottoms/blue_pants.png';
+import brownPants from '../assets/char_customization/bottoms/brown_pants.png';
+import grayPants from '../assets/char_customization/bottoms/gray_pants.png';
+import turqoisePants from '../assets/char_customization/bottoms/turqoise_pants.png';
 
-import blackHairF from './assets/char_customization/hair/black_hair_f.png';
-import brownHairF from './assets/char_customization/hair/brown_hair_f.png';
-import blondeHairF from './assets/char_customization/hair/blonde_hair_f.png';
+import blackHairF from '../assets/char_customization/hair/black_hair_f.png';
+import brownHairF from '../assets/char_customization/hair/brown_hair_f.png';
+import blondeHairF from '../assets/char_customization/hair/blonde_hair_f.png';
 
-import maleBlackHairM from './assets/char_customization/hair/black_hair_m.png';
-import maleBrownHairM from './assets/char_customization/hair/brown_hair_m.png';
-import maleBlondeHairM from './assets/char_customization/hair/blonde_hair_m.png';
+import maleBlackHairM from '../assets/char_customization/hair/black_hair_m.png';
+import maleBrownHairM from '../assets/char_customization/hair/brown_hair_m.png';
+import maleBlondeHairM from '../assets/char_customization/hair/blonde_hair_m.png';
 
-import blackShoes from './assets/char_customization/shoes/black_shoes.png';
-import brownShoes from './assets/char_customization/shoes/brown_shoes.png';
-import blueShoes from './assets/char_customization/shoes/blue_shoes.png';
+import blackShoes from '../assets/char_customization/shoes/black_shoes.png';
+import brownShoes from '../assets/char_customization/shoes/brown_shoes.png';
+import blueShoes from '../assets/char_customization/shoes/blue_shoes.png';
 
 // types
 type Gender = 'male' | 'female';

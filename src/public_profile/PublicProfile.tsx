@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { supabase } from './supabaseClient'
+import { supabase } from '../supabaseClient'
 import './PublicProfile.css'
 
-import Character from './Character'
-import { DRINKS, FLOWERS, SOCIALS } from './Items'
+import Character from '../character/Character'
+import { DRINKS, FLOWERS, SOCIALS } from '../Items'
 
 function PublicProfile() {
 

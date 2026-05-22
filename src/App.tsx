@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
 import { Routes, Route } from 'react-router-dom'
-import Profile from './Profile'
-import PublicProfile from './PublicProfile.tsx'
-import Homepage from './Homepage'
 import type { User } from '@supabase/supabase-js'
+import Profile from './profile/Profile'
+import PublicProfile from './public_profile/PublicProfile'
+import Homepage from './homepage/Homepage'
+
 
 function App() {
   const [user, setUser] = useState<User | null>(null)

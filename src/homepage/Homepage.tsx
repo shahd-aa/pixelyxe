@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Login from './Login'
-import SignUp from './SignUp'
+import Login from '../Login.tsx'
+import SignUp from '../SignUp.tsx'
 import './Homepage.css'
 
 const slideImages = [
@@ -9,9 +9,9 @@ const slideImages = [
   'https://via.placeholder.com/900x420/0F766E/ffffff?text=Placeholder+Slide+3',
 ]
 
-import firstFeature from './assets/interest_showcase.png'
-import secondFeature from './assets/customization_showcase.png'
-import thirdFeature from './assets/items_showcase.png'
+import firstFeature from '../assets/interest_showcase.png'
+import secondFeature from '../assets/customization_showcase.png'
+import thirdFeature from '../assets/items_showcase.png'
 
 function SlideShow() {
   const [currentSlide, setCurrentSlide] = useState(0)

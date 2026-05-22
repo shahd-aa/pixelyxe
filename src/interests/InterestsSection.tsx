@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { supabase } from './supabaseClient'
+import { supabase } from '../supabaseClient'
 import type { Question } from './InterestTypes'
-import { analyzeAnswer } from './lib/analyzeAnswer'
+import { analyzeAnswer } from '../lib/analyzeAnswer'
 
-import starIcon from './assets/star.png'
+import starIcon from '../assets/star.png'
 
 interface Props {
     user: any

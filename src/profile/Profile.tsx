@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
-import { supabase } from './supabaseClient'
-import CharakterGestaltung from './CharakterGestaltung'
-import Character from './Character'
-import './App.css'
-import InterestsSection from './InterestsSection'
-import { DRINKS, FLOWERS, SOCIALS } from './Items'
-import FAQPage from './FAQPage'
+import { supabase } from '../supabaseClient'
+import CharakterGestaltung from '../character/CharakterGestaltung'
+import Character from '../character/Character'
+import '../App.css'
+import InterestsSection from '../interests/InterestsSection'
+import { DRINKS, FLOWERS, SOCIALS } from '../Items'
+import FAQPage from '../FAQPage'
+import SettingsPage from '../settings/SettingsPage'
 
-import infoIcon from './assets/info_icon.png'
-import editIcon from './assets/edit_icon.png'
+import infoIcon from '../assets/info_icon.png'
+import editIcon from '../assets/edit_icon.png'
 
 interface Props {
   user: any
@@ -591,11 +592,23 @@ function ProfileViewport({ user }: Props) {
    PAGE WRAPPER
 ------------------------------ */
 export default function Profile({ user }: Props) {
-  const [route, setRoute] = useState<'home' | 'page1' | 'page2' | 'page3'>('home')
+  const [route, setRoute] = useState<'home' | 'page1' | 'page2' | 'settings'>('home')
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
+  }
+
+  const setTheme = (theme: string) => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+
+    useEffect(() => {
+      const saved = localStorage.getItem('theme')
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved)
+      }
+    }, [])
   }
 
   return (
@@ -617,6 +630,10 @@ export default function Profile({ user }: Props) {
             FAQ
           </button>
 
+          <button onClick={() => setRoute('settings')}>
+            Einstellungen
+          </button>
+
           <button
             className="logout-button"
             onClick={() => setShowLogoutConfirm(true)}
@@ -629,14 +646,13 @@ export default function Profile({ user }: Props) {
       <div className="content">
         {route === 'home' ? (
           <ProfileViewport user={user} />
-
         ) : route === 'page1' ? (
           <CharakterGestaltung user={user} />
-
         ) : route === 'page2' ? (
           <FAQPage />
+        ) : route === 'settings' ? (
+          <SettingsPage setRoute={setRoute} />
         ) : (
-
           <div className="placeholder">
             <h1>{route}</h1>
             <p>Blank page</p>
