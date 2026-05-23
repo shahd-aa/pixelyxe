@@ -143,25 +143,31 @@ h6 {
   flex-direction: column;
 }
 
+.sidebar h2 {
+  font-size: clamp(16px, 1.8vw, 18px);
+  margin: 0 0 14px 0;
+}
+
 .sidebar ul {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: clamp(6px, 0.8vw, 8px);
 }
 
 .sidebar button {
   width: 100%;
-  padding: 8px 10px;
+  padding: clamp(7px, 1vw, 8px) clamp(8px, 1.2vw, 10px);
   text-align: left;
   background: transparent;
   border: 1px solid transparent;
   border-radius: 6px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: clamp(14px, 1.6vw, 18px);
   color: var(--ui-text);
+  min-height: 36px;
 }
 
 .sidebar button.active {
@@ -174,9 +180,94 @@ h6 {
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  padding-top: 16px;
+  padding-top: clamp(12px, 1.5vw, 16px);
   border-top: 1px solid var(--ui-border);
-  gap: 12px;
+  gap: clamp(8px, 1vw, 12px);
+}
+
+/* SIDEBAR: medium screens – slim it down */
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 150px;
+    padding: clamp(12px, 1.5vw, 16px);
+  }
+}
+
+/* SIDEBAR: tablet — convert to inline block above content */
+@media (max-width: 1000px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    margin-bottom: clamp(12px, 2vw, 20px);
+    flex-shrink: 0;
+  }
+}
+
+/* SIDEBAR: mobile — full width, horizontal nav */
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: clamp(8px, 1.5vw, 20px);
+    padding: clamp(10px, 2vw, 14px);
+  }
+
+  .sidebar ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: clamp(6px, 1vw, 8px);
+  }
+
+  .sidebar button {
+    width: auto;
+    white-space: nowrap;
+    padding: clamp(6px, 1.2vw, 8px) clamp(10px, 1.5vw, 12px);
+    flex: 1 1 auto;
+    text-align: center;
+    min-width: 80px;
+  }
+
+  .sidebar-footer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: clamp(6px, 1vw, 10px);
+  }
+
+  .sidebar-footer .logout-button {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+}
+
+/* SIDEBAR: very small screens */
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 10px;
+  }
+
+  .sidebar h2 {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .sidebar ul {
+    justify-content: center;
+  }
+
+  .sidebar button {
+    font-size: 12px;
+    padding: 6px 8px;
+    min-width: 60px;
+  }
+
+  .sidebar-footer {
+    justify-content: center;
+  }
 }
 
 /* FAQ */
@@ -305,14 +396,45 @@ button,
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.main-card:hover,
+/* shared hover lift */
 .side-rect:hover,
 .fav-section:hover,
 .inventory-item:hover {
   transform: translateY(-4px);
 }
 
-/* STAR UI */
+/* main-card hover: keeps its base X-offset, adds the Y-lift */
+.main-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.main-card:hover {
+  transform: translateX(min(-2vw, -20px)) translateY(-4px);
+}
+
+/* Wide screens: no X-offset at all on main-card */
+@media (min-width: 1400px) {
+  .main-card {
+    transform: none;
+  }
+
+  .main-card:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* Tablet/mobile: main-card is full-width with no X-offset */
+@media (max-width: 1000px) {
+  .main-card {
+    transform: none;
+  }
+
+  .main-card:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* Star UI */
 
 .stars {
   gap: 4px;
@@ -351,11 +473,35 @@ img {
 
   .sidebar {
     position: relative;
-
     width: 100%;
     height: auto;
-
     margin-bottom: 20px;
+  }
+
+  .sidebar ul {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .sidebar button {
+    width: auto;
+    white-space: nowrap;
+    padding: 6px 10px;
+    flex: 1 1 auto;
+    text-align: center;
+    min-width: 70px;
+    font-size: 14px;
+  }
+
+  .sidebar-footer {
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .sidebar-footer .logout-button {
+    flex: 1 1 100%;
+    text-align: center;
   }
 
   .viewport {
