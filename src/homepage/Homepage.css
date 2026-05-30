@@ -157,7 +157,7 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   position: relative;
-  background: var(--secondary-card-bg);
+  background: var(--neon-purple);
   z-index: 1;
 }
 
@@ -342,6 +342,7 @@ h1, h2, h3, h4, h5, h6 {
   /* Maintain height */
   padding: 8px 10px;
   font-size: 16px;
+  color: black;
 }
 
 .auth-form button {
