@@ -93,8 +93,9 @@ function ProfileDetails({
   "Natur",
   ]
 
-  const [tags, setTags] = useState<string[]>([])
+  const [tags, setTags] = useState<string[]>(initialData?.hobbies || [])
   const [tagOpen, setTagOpen] = useState(false)
+  const [saving, setSaving] = useState(false)
 
   const toggleTag = (tag: string) => {
     setTags(prev =>
@@ -106,6 +107,28 @@ function ProfileDetails({
 
   const toggleField = (field: 'short-desc' | 'about-me') => {
     setEditingField(prev => (prev === field ? null : field))
+  }
+
+   // Save hobbies to Supabase when user clicks "fertig"
+  const saveHobbies = async () => {
+    if (!user) return
+    
+    setSaving(true)
+    
+    const { error } = await supabase
+      .from('profiles')
+      .update({ hobbies: tags })
+      .eq('id', user.id)
+    
+    if (error) {
+      console.error('Error saving hobbies:', error)
+      alert('Fehler beim Speichern der Hobbies 😕')
+    } else {
+      console.log('Hobbies saved successfully!')
+    }
+    
+    setSaving(false)
+    setTagOpen(false)
   }
 
   useEffect(() => {
@@ -154,8 +177,7 @@ function ProfileDetails({
         </button>
       </div>
 
-      <div className="hobby-tags">
-
+     <div className="hobby-tags">
         <div className="tag-header">
           <span>Hobbies</span>
 
@@ -184,7 +206,6 @@ function ProfileDetails({
         {tagOpen && (
           <div className="tag-overlay" onClick={() => setTagOpen(false)}>
             <div className="tag-modal" onClick={(e) => e.stopPropagation()}>
-
               <h3>Hobbies auswählen</h3>
 
               <div className="tag-grid">
@@ -201,15 +222,16 @@ function ProfileDetails({
 
               <button
                 className="tag-done-btn"
-                onClick={() => setTagOpen(false)}
+                onClick={saveHobbies}  // ← Changed from setTagOpen(false)
+                disabled={saving}
               >
-                fertig
+                {saving ? 'speichere...' : 'fertig'}
               </button>
-
             </div>
           </div>
         )}
       </div>
+
 
       <div className="profile-depth">
         <span className="depth-label">Profiltiefe</span>
