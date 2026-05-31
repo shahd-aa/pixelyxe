@@ -5,6 +5,7 @@ export function analyzeAnswer(text: string) {
 
   const emotionalWords = [
   'weil',
+  'genauso',
   'fühle',
   'fühlte',
   'gefühlt',

@@ -129,16 +129,17 @@ export default function InterestsSection({ user, editIcon }: Props) {
                             {currentAnswer ? (
                                 <div
                                     className="interest-display"
-                                    style={{ flexDirection: 'column', gap: '2px' }}
                                     onClick={() => {
                                         setActiveQuestion(q)
                                         setTempAnswer(currentAnswer.answer)
                                         setShowModal(true)
                                     }}
                                 >
-                                    <span style={{ marginBottom: '8px' }}>"{currentAnswer.answer}"</span>
+                                    <span className="answer-text">
+                                        "{currentAnswer.answer}"
+                                    </span>
 
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <div className="interest-rating">
                                         <div className="answer-stars">
                                             {Array.from({ length: currentAnswer.score }).map((_, index) => (
                                                 <img
@@ -149,10 +150,12 @@ export default function InterestsSection({ user, editIcon }: Props) {
                                                 />
                                             ))}
                                         </div>
+
                                         <p className="authenticity-level">
                                             ({authenticityLevel})
                                         </p>
-                                        <button className="edit-button" style={{ marginLeft: '4px' }}>
+
+                                        <button className="edit-button">
                                             <img
                                                 src={editIcon}
                                                 alt="edit"

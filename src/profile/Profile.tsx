@@ -11,6 +11,7 @@ import SettingsPage from '../settings/SettingsPage'
 
 import infoIcon from '../assets/info_icon.png'
 import editIcon from '../assets/edit_icon.png'
+import starIcon from '../assets/star.png'
 
 interface Props {
   user: any
@@ -234,15 +235,17 @@ function ProfileDetails({
 
 
       <div className="profile-depth">
-        <span className="depth-label">Profiltiefe</span>
+        <span className="depth-label">Profiltiefe Ø: </span>
 
         {averageScore !== null ? (
           <>
-            <div className="depth-stars">
-              {'★'.repeat(Math.round(averageScore))}
-            </div>
+           <div className="depth-stars">
+  {Array.from({ length: Math.round(averageScore) }).map((_, i) => (
+    <img key={i} src={starIcon} alt="star" className="star-icon" />
+  ))}
+</div>
             <span className="depth-number">
-              {averageScore.toFixed(1)}
+              ( {averageScore.toFixed(1)} )
             </span>
           </>
         ) : (

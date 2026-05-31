@@ -39,13 +39,16 @@
   height: var(--tile-height);
   border-radius: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: flex-start;
   color: var(--ui-text);
 
   /* make 3 tiles fit the viewport width without wrapping; use tile gap variable */
   flex: 1 1 280px;
   max-width: 100%;
+
+      border: 4px solid rgba(0, 0, 0, 0.7);
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.7);
 }
 
 .tile.interest-tile {
@@ -55,6 +58,7 @@
 }
 
 .interest-question {
+  padding-top: 4px;
   font-size: 18px;
   /* Adjusted for better fit in smaller tiles */
   text-align: center;
@@ -90,4 +94,56 @@
   font-family: inherit;
   border-radius: 0;
   transition: background 0.2s;
+
+    margin-top: clamp(20px, 5vh, 60px);
+}
+
+.tile.interest-tile {
+  flex-direction: column;
+  gap: 10px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-gutter: stable;
+}
+
+.answer-text {
+  width: 100%;
+  margin: 6px;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.interest-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* Chrome, Edge, Safari */
+.tile.interest-tile::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tile.interest-tile::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tile.interest-tile::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 999px;
+}
+
+.tile.interest-tile::-webkit-scrollbar-thumb:hover {
+  background: var(--ui-text);
+}
+
+/* Firefox */
+.tile.interest-tile {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) transparent;
 }
