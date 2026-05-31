@@ -49,49 +49,49 @@ function ProfileDetails({
   const [username, setUsername] = useState('Laden...')
   const [editingField, setEditingField] = useState<'short-desc' | 'about-me' | null>(null)
   const ALL_TAGS = [
-"Gaming",
-  "Kochen",
-  "Lesen",
-  "Musik",
-  "Sport",
-  "Reisen",
-  "Programmieren",
-  "Fotografie",
-  "Filme / Serien schauen",
-  "Anime",
-  "Kunst",
-  "Schreiben",
-  "Tanzen",
-  "Singen",
-  "Instrument spielen",
-  "Radfahren",
-  "Schwimmen",
-  "Wandern",
-  "Backen",
-  "Gärtnern",
-  "Make-up",
-  "Streaming",
-  "Content Creation",
-  "Grafikdesign",
-  "3D-Modelling",
-  "Technik",
-  "Astronomie",
-  "Schach",
-  "Puzzle",
-  "Sprachen lernen",
-  "Geschichte",
-  "Psychologie",
-  "Wissenschaft",
-  "Tiere",
-  "Volleyball",
-  "Fußball",
-  "Basketball",
-  "Klettern",
-  "Autos",
-  "Sammeln",
-  "Shopping",
-  "Ehrenamt",
-  "Natur",
+    "Gaming",
+    "Kochen",
+    "Lesen",
+    "Musik",
+    "Sport",
+    "Reisen",
+    "Programmieren",
+    "Fotografie",
+    "Filme / Serien schauen",
+    "Anime",
+    "Kunst",
+    "Schreiben",
+    "Tanzen",
+    "Singen",
+    "Instrument spielen",
+    "Radfahren",
+    "Schwimmen",
+    "Wandern",
+    "Backen",
+    "Gärtnern",
+    "Make-up",
+    "Streaming",
+    "Content Creation",
+    "Grafikdesign",
+    "3D-Modelling",
+    "Technik",
+    "Astronomie",
+    "Schach",
+    "Puzzle",
+    "Sprachen lernen",
+    "Geschichte",
+    "Psychologie",
+    "Wissenschaft",
+    "Tiere",
+    "Volleyball",
+    "Fußball",
+    "Basketball",
+    "Klettern",
+    "Autos",
+    "Sammeln",
+    "Shopping",
+    "Ehrenamt",
+    "Natur",
   ]
 
   const [tags, setTags] = useState<string[]>(initialData?.hobbies || [])
@@ -110,24 +110,24 @@ function ProfileDetails({
     setEditingField(prev => (prev === field ? null : field))
   }
 
-   // Save hobbies to Supabase when user clicks "fertig"
+  // Save hobbies to Supabase when user clicks "fertig"
   const saveHobbies = async () => {
     if (!user) return
-    
+
     setSaving(true)
-    
+
     const { error } = await supabase
       .from('profiles')
       .update({ hobbies: tags })
       .eq('id', user.id)
-    
+
     if (error) {
       console.error('Error saving hobbies:', error)
       alert('Fehler beim Speichern der Hobbies 😕')
     } else {
       console.log('Hobbies saved successfully!')
     }
-    
+
     setSaving(false)
     setTagOpen(false)
   }
@@ -178,7 +178,7 @@ function ProfileDetails({
         </button>
       </div>
 
-     <div className="hobby-tags">
+      <div className="hobby-tags">
         <div className="tag-header">
           <span>Hobbies</span>
 
@@ -239,13 +239,13 @@ function ProfileDetails({
 
         {averageScore !== null ? (
           <>
-           <div className="depth-stars">
-  {Array.from({ length: Math.round(averageScore) }).map((_, i) => (
-    <img key={i} src={starIcon} alt="star" className="star-icon" />
-  ))}
-</div>
+            <div className="depth-stars">
+              {Array.from({ length: Math.round(averageScore) }).map((_, i) => (
+                <img key={i} src={starIcon} alt="star" className="star-icon" />
+              ))}
+            </div>
             <span className="depth-number">
-              ( {averageScore.toFixed(1)} )
+              ( {averageScore.toFixed(1)}
             </span>
           </>
         ) : (
@@ -339,6 +339,7 @@ function ProfileViewport({ user }: Props) {
 
   const [copied, setCopied] = useState(false)
   const [showSharePopup, setShowSharePopup] = useState(false)
+
   const closeSharePopup = () => {
     setShowSharePopup(false)
     setCopied(false)
@@ -523,16 +524,22 @@ function ProfileViewport({ user }: Props) {
                   className="share-copy-btn"
                   onClick={() => {
                     if (!shareUrl) return
+
                     navigator.clipboard.writeText(shareUrl)
+                    setCopied(true)
+
+                    setTimeout(() => {
+                      setCopied(false)
+                    }, 2000)
                   }}
                 >
-                  kopieren
+                  {copied ? 'kopiert!' : 'kopieren'}
                 </button>
               </div>
 
               <button
                 className="share-ok-button"
-                onClick={() => setShowSharePopup(false)}
+                onClick={closeSharePopup}
               >
                 ok
               </button>
@@ -656,18 +663,6 @@ export default function Profile({ user }: Props) {
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
-  }
-
-  const setTheme = (theme: string) => {
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
-
-    useEffect(() => {
-      const saved = localStorage.getItem('theme')
-      if (saved) {
-        document.documentElement.setAttribute('data-theme', saved)
-      }
-    }, [])
   }
 
   return (

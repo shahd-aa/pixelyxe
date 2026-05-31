@@ -11,7 +11,6 @@ function PublicProfile() {
     const { username } = useParams()
     const navigate = useNavigate()
 
-    const [interests, setInterests] = useState<any[]>([])
     const [profileData, setProfileData] = useState<any>(null)
 
 
@@ -29,12 +28,7 @@ function PublicProfile() {
 
             setProfileData(data)
 
-            const { data: interestData } = await supabase
-                .from('interests')
-                .select('*')
-                .eq('user_id', data.id)
-
-            setInterests(interestData || [])
+         
         }
 
         fetchProfile()
