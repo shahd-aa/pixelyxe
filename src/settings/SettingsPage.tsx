@@ -33,14 +33,14 @@ const SettingsPage: React.FC<Props> = ({ setRoute, user }) => {
       <h1>Einstellungen</h1>
 
       <section className="settings-section">
-        <h2>Themes</h2>
+        <h2>Farbpaletten</h2>
 
         <div className="theme-grid">
-          <button onClick={() => setTheme('default')}>Default</button>
-          <button onClick={() => setTheme('ocean')}>Ocean</button>
-          <button onClick={() => setTheme('sunset')}>Sunset</button>
-          <button onClick={() => setTheme('mint')}>Mint</button>
-          <button onClick={() => setTheme('mono')}>Mono</button>
+          <button onClick={() => setTheme('default')}>Standard</button>
+          <button onClick={() => setTheme('ocean')}>Ozean</button>
+          <button onClick={() => setTheme('sunset')}>Sonnenuntergang</button>
+          <button onClick={() => setTheme('mint')}>Minze</button>
+          <button onClick={() => setTheme('mono')}>Monochrom</button>
         </div>
       </section>
 
