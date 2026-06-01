@@ -4,11 +4,12 @@ import SignUp from '../SignUp.tsx'
 import './Homepage.css'
 import '../App.css'
 
-const slideImages = [
-  'https://via.placeholder.com/900x420/5B21B6/ffffff?text=Placeholder+Slide+1',
-  'https://via.placeholder.com/900x420/047857/ffffff?text=Placeholder+Slide+2',
-  'https://via.placeholder.com/900x420/0F766E/ffffff?text=Placeholder+Slide+3',
-]
+import char1 from '../assets/slide_images/character_1.png'
+import char2 from '../assets/slide_images/character_2.png'
+import char3 from '../assets/slide_images/character_3.png'
+import char4 from '../assets/slide_images/character_4.png'
+
+const slideImages = [char1, char2, char3, char4]
 
 import firstFeature from '../assets/interest_showcase.png'
 import secondFeature from '../assets/customization_showcase.png'
@@ -108,9 +109,9 @@ function Homepage() {
             />
 
             <div className="feature-text second-feature-text">
-              <h2>Digitale Identität</h2>
+              <h2>Figuren-gestaltung</h2>
               <p>
-                Erstelle ein einzig-artiges Profil, das deine wahre Persönlich-keit wider-spiegelt, indem du Fragen beantwortest.
+               Gestalte deine eigene Figur, die dich widerspiegelt und deine Persönlichkeit deinen Stil sichtbar macht.
               </p>
             </div>
           </div>
@@ -144,9 +145,9 @@ function Homepage() {
             />
 
             <div className="feature-text">
-              <h2>Digitale Identität</h2>
+              <h2> Was ist denn dein Lieblings- getränk?</h2>
               <p>
-                Erstelle ein einzigartiges Profil, das deine wahre Persönlichkeit widerspiegelt, indem du Fragen beantwortest.
+                Zeige deine Favoriten in verschiedenen Kategorien wie Getränke, Blumen und soziale Medien!
               </p>
             </div>
           </div>
@@ -159,9 +160,9 @@ function Homepage() {
             />
 
             <div className="feature-text fourth-feature-text">
-              <h2>Digitale Identität</h2>
+              <h2>Teile deinen Profil mit anderen!</h2>
               <p>
-                Erstelle ein einzig-artiges Profil, das deine wahre Persönlich-keit wider-spiegelt, indem du Fragen beantwortest.
+                Du willst den Leuten zeigen, was dich ausmacht? Teile dein Profil mit Freunden und Familie oder auf sozialen Medien!
               </p>
             </div>
           </div>
