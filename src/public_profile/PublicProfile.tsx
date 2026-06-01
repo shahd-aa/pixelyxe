@@ -28,12 +28,20 @@ function PublicProfile() {
 
             setProfileData(data)
 
-         
         }
 
         fetchProfile()
 
     }, [username])
+
+    useEffect(() => {
+        if (!profileData?.theme) return
+
+        document.documentElement.setAttribute(
+            'data-theme',
+            profileData.theme
+        )
+    }, [profileData])
 
     if (!profileData) {
         return <div>loading...</div>

@@ -196,7 +196,7 @@
 
 .public-interest-card {
     border: 3px solid var(--ui-border);
-    background: #59747b;
+    background: var(--complementary-color);
 
     padding: 18px;
     min-height: 170px;
@@ -266,7 +266,7 @@
 
 .interest-overlay button {
     border: 3px solid black;
-    background: #ffd9d9;
+    background: var(--complementary-color);
 
     padding: 12px 18px;
 
@@ -280,7 +280,7 @@
 
 .interest-overlay button:hover {
     transform: translateY(-2px);
-    background: #ffcaca;
+    background: var(--complementary-color);
 }
 
 /* ---------------- FOOTER ---------------- */
@@ -296,7 +296,7 @@
 
 .public-signup-button {
     border: 3px solid black;
-    background: #ffd9d9;
+    background: var(--complementary-color);
 
     padding: 14px 22px;
 
@@ -310,7 +310,7 @@
 
 .public-signup-button:hover {
     transform: translateY(-2px);
-    background: #ffcaca;
+    background: var(--complementary-color);
 }
 
 /* ---------------- MOBILE ---------------- */

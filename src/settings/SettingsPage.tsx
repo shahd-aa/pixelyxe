@@ -1,15 +1,24 @@
 import React, { useEffect } from 'react'
 import './SettingsPage.css'
+import { supabase } from '../supabaseClient'
 
 type Props = {
   setRoute: (r: 'home' | 'page1' | 'page2' | 'settings') => void
+  user: any
 }
 
-const SettingsPage: React.FC<Props> = ({ setRoute }) => {
+const SettingsPage: React.FC<Props> = ({ setRoute, user }) => {
 
-  const setTheme = (theme: string) => {
+  const setTheme = async (theme: string) => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('theme', theme)
+
+    const { error } = await supabase
+      .from('profiles')
+      .update({ theme })
+      .eq('id', user.id)
+
+    console.log(error)
   }
 
   useEffect(() => {

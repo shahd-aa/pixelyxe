@@ -705,7 +705,7 @@ export default function Profile({ user }: Props) {
         ) : route === 'page2' ? (
           <FAQPage />
         ) : route === 'settings' ? (
-          <SettingsPage setRoute={setRoute} />
+          <SettingsPage setRoute={setRoute} user={user} />
         ) : (
           <div className="placeholder">
             <h1>{route}</h1>
