@@ -14,6 +14,7 @@ const slideImages = [char1, char2, char3, char4]
 import firstFeature from '../assets/interest_showcase.png'
 import secondFeature from '../assets/customization_showcase.png'
 import thirdFeature from '../assets/items_showcase.png'
+import fourthFeature from '../assets/profil_teilen_showcase.png'
 
 function SlideShow() {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -154,7 +155,7 @@ function Homepage() {
 
           <div className="fourth-feature feature">
             <img
-              src={secondFeature}
+              src={fourthFeature}
               alt="Feature"
               className="feature-image fourth-feature-image"
             />
